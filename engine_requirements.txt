@@ -1,0 +1,14 @@
+# Requirements for RoboMaster AI Engine
+# Core RoboMaster SDK dependencies
+robomaster
+numpy >= 1.18
+opencv-python >= 4.2
+netaddr >= 0.8
+netifaces >= 0.10
+
+# OpenAI integration
+openai >= 1.0.0
+
+# Additional utilities for robust operation
+Pillow >= 8.0.0
+requests >= 2.25.0
