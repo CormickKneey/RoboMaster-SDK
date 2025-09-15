@@ -32,6 +32,7 @@ class RoboMasterAIEngine:
                  conn_type: str = "sta", 
                  proto_type: str = "tcp",
                  openai_api_key: Optional[str] = None,
+                 openai_base_url: Optional[str] = None,
                  camera_resolution: str = camera.STREAM_720P):
         """
         Initialize the AI engine
@@ -63,7 +64,7 @@ class RoboMasterAIEngine:
         self._setup_logging()
         
         # Initialize OpenAI client
-        self._init_openai_client(openai_api_key)
+        self._init_openai_client(openai_api_key, openai_base_url)
         
         # Setup signal handlers for graceful shutdown
         signal.signal(signal.SIGINT, self._signal_handler)
@@ -81,7 +82,7 @@ class RoboMasterAIEngine:
         )
         self.logger = logging.getLogger(__name__)
         
-    def _init_openai_client(self, api_key: Optional[str]):
+    def _init_openai_client(self, api_key: Optional[str], base_url: Optional[str]):
         """Initialize OpenAI client"""
         try:
             if api_key is None:
@@ -91,7 +92,7 @@ class RoboMasterAIEngine:
                 self.logger.warning("OpenAI API key not provided. Set OPENAI_API_KEY environment variable.")
                 return
                 
-            self.openai_client = OpenAI(api_key=api_key)
+            self.openai_client = OpenAI(api_key=api_key, base_url=base_url)
             self.logger.info("OpenAI client initialized successfully")
             
         except Exception as e:
@@ -471,7 +472,8 @@ def main():
         'conn_type': 'sta',  # 'sta' for network, 'ap' for direct WiFi, 'rndis' for USB
         'proto_type': 'tcp',  # 'tcp' or 'udp'
         'camera_resolution': camera.STREAM_720P,  # Camera resolution
-        'openai_api_key': None  # Will use OPENAI_API_KEY env var if None
+        'openai_api_key': None,  # Will use OPENAI_API_KEY env var if None
+        'openai_base_url': None  # Will use OPENAI_BASE_URL env var if None
     }
     
     # Create and run engine
